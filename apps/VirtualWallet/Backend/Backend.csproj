@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>Company.Apps.VirtualWallet.Backend</AssemblyName>
+    <RootNamespace>Company.Apps.VirtualWallet.Backend</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
