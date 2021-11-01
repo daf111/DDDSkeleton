@@ -1,5 +1,6 @@
 ﻿using Company.src.Shared.Domain.ValueObject;
 using Company.src.VirtualWallet.CashesIn.Domain;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +11,24 @@ namespace Company.src.VirtualWallet.CashesIn.Infraestructure
 {
     public class EFCashInRepository : ICashInRepository
     {
+        private readonly CashInContext _context;
+
+        public EFCashInRepository(IConfiguration config)
+        {
+            _context = new CashInContext(config["ConnectionStrings:VirtualWalletDatabase"]);
+        }
         public List<CashIn> GetAll()
         {
-            var context = new CashInContext("Server=.\\SQLExpress;Database=VirtualWallet;Trusted_Connection=true;");
-            return context.CashesIn.ToList();
+            return _context.CashesIn.ToList();
         }
         public CashIn Find(IdentityValueObject id)
         {
-            var context = new CashInContext("Server=.\\SQLExpress;Database=VirtualWallet;Trusted_Connection=true;");
-            return context.CashesIn.Find(id);
+            return _context.CashesIn.Find(id);
         }
         public void Create(CashIn cashIn)
         {
-            var context = new CashInContext("Server=.\\SQLExpress;Database=VirtualWallet;Trusted_Connection=true;");
-            context.CashesIn.Add(cashIn);
-            context.SaveChanges();
+            _context.CashesIn.Add(cashIn);
+            _context.SaveChanges();
         }
     }
 }
